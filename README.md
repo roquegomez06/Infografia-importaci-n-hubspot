@@ -1,1 +1,424 @@
-# Infografia-importaci-n-hubspot
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Importación a HubSpot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --color-bg: #F8FAFC;
+            --color-card: #FFFFFF;
+            --color-text-primary: #1E293B;
+            --color-text-secondary: #475569;
+            --color-primary: #0284C7;
+            --color-secondary: #0369A1;
+            --color-accent: #F59E0B;
+            --color-success: #10B981;
+            --color-danger: #EF4444;
+        }
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            background-color: var(--color-card);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+                max-height: 400px;
+            }
+        }
+        .chart-container-sm {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+        .flow-step {
+            transition: all 0.3s ease;
+        }
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .flow-arrow {
+            color: var(--color-primary);
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="antialiased">
+    
+    <!-- Chosen Palette: Brilliant Blues (Primary: #0284C7, Accent: #F59E0B, Success: #10B981, Danger: #EF4444) -->
+    <!-- Application Structure Plan: The SPA is structured as a top-to-bottom narrative infographic. It starts with a "Hook" (the problem: cost of duplicates), presents the "Golden Rule" (the core solution: unique IDs), details the "Preparation" (Step 1: data cleaning), visualizes the "Process" (Step 2: 5-step import flow), analyzes the "Critical Risk" (Step 3: matching fields), and concludes with "Best Practices" (team alignment). This linear, scrolling structure is ideal for an infographic, guiding the user logically from problem to solution, mirroring the instructional nature of the source report. -->
+    <!-- Visualization & Content Choices: 
+        - Hook (Stats): Goal: Inform. Method: Two "Single Big Number" callouts (styled HTML) to establish the problem's scale.
+        - Golden Rule: Goal: Organize. Method: Two-column card layout (HTML/CSS) to clearly separate Contact vs. Company rules. Unicode icons (👤, 🏢, 🔑) used (No SVG).
+        - Data Prep (Checklists): Goal: Inform. Method: Two Donut Charts (Chart.js/Canvas) to visually represent the *ideal* state of a clean file (e.g., 95% valid) vs. the 'danger' of invalid data.
+        - Import Process (Flowchart): Goal: Organize. Method: A responsive flexbox-based flowchart (HTML/CSS/Tailwind) with styled cards for steps. (No SVG/Mermaid). Step 3 is highlighted with an accent border.
+        - Risk Chart (Field Choice): Goal: Compare. Method: A horizontal Bar Chart (Chart.js/Canvas) to visually contrast the low risk of using unique IDs vs. the high risk of using "Name". This is the key data visualization.
+        - Best Practices: Goal: Organize. Method: Three-column card layout (HTML/CSS) with Unicode icons (✅, 🚫, 🔍) for easy-to-digest rules.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="p-6 md:p-8 shadow-md" style="background-color: var(--color-secondary); color: white;">
+        <div class="container mx-auto max-w-6xl">
+            <h1 class="text-3xl md:text-4xl font-bold">Infografía: Importación Perfecta a HubSpot</h1>
+            <p class="text-lg mt-1 opacity-90">Evitando duplicados en Contactos y Empresas</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <section id="hook" class="card text-center">
+            <h2 class="text-2xl font-bold mb-4" style="color: var(--color-primary);">El Costo Oculto de los Duplicados</h2>
+            <p class="text-lg max-w-3xl mx-auto mb-6" style="color: var(--color-text-secondary);">Una base de datos desordenada genera reportes incorrectos, frustra a los equipos de ventas y marketing, y diluye el impacto de tus campañas. El primer paso para evitarlo es una importación limpia.</p>
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+                <div class="p-6 rounded-lg flex-1" style="background-color: var(--color-danger); color: white;">
+                    <div class="text-5xl font-bold">~25%</div>
+                    <div class="text-lg mt-2 font-semibold">de las bases de datos B2B son incorrectas o están duplicadas.</div>
+                </div>
+                <div class="p-6 rounded-lg flex-1" style="background-color: var(--color-success); color: white;">
+                    <div class="text-5xl font-bold">100%</div>
+                    <div class="text-lg mt-2 font-semibold">Prevenible con un proceso de importación estandarizado.</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="golden-rule" class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">La Regla de Oro: Identificadores Únicos</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8" style="color: var(--color-text-secondary);">HubSpot evita duplicados usando un "campo de coincidencia" principal. Si no proporcionas el correcto, ¡crearás duplicados! Esta es la clave de todo el proceso.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card p-0 overflow-hidden">
+                    <div class="p-6" style="background-color: var(--color-primary); color: white;">
+                        <h3 class="text-2xl font-semibold flex items-center"><span class="text-3xl mr-3">👤</span> Contactos</h3>
+                    </div>
+                    <div class="p-6 text-center">
+                        <div class="text-lg" style="color: var(--color-text-secondary);">El identificador único es:</div>
+                        <div class="text-3xl font-bold my-4 p-4 rounded-lg" style="background-color: #F0F9FF; color: var(--color-primary);">
+                            <span class="text-4xl mr-2">🔑</span> Correo Electrónico
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-0 overflow-hidden">
+                    <div class="p-6" style="background-color: var(--color-accent); color: white;">
+                        <h3 class="text-2xl font-semibold flex items-center"><span class="text-3xl mr-3">🏢</span> Empresas</h3>
+                    </div>
+                    <div class="p-6 text-center">
+                        <div class="text-lg" style="color: var(--color-text-secondary);">El identificador único es:</div>
+                        <div class="text-3xl font-bold my-4 p-4 rounded-lg" style="background-color: #FFFBEB; color: var(--color-accent);">
+                            <span class="text-4xl mr-2">🔑</span> Dominio de la Empresa
+                        </div>
+                        <p class="text-sm" style="color: var(--color-text-secondary);">Ej: <code class="bg-gray-200 p-1 rounded">hubspot.com</code> (NO `www.hubspot.com`)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-prep" class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">Paso 1: Limpieza del Archivo CSV</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8" style="color: var(--color-text-secondary);">El éxito de la importación depende de la calidad de tu archivo. Un archivo "sucio" garantiza duplicados o errores. Revisa tu CSV antes de subirlo.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-center mb-4">Checklist de Contactos</h3>
+                    <div class="chart-container-sm">
+                        <canvas id="contactPrepChart"></canvas>
+                    </div>
+                    <p class="text-center mt-4" style="color: var(--color-text-secondary);">Asegúrate de que cada contacto tenga un email válido y único. Elimina filas sin email y normaliza los datos.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-semibold text-center mb-4">Checklist de Empresas</h3>
+                    <div class="chart-container-sm">
+                        <canvas id="companyPrepChart"></canvas>
+                    </div>
+                    <p class="text-center mt-4" style="color: var(--color-text-secondary);">Cada empresa debe tener un dominio raíz limpio (ej. `empresa.com`). Esto es más fiable que el nombre legal.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="import-process" class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">Paso 2: El Proceso de Importación en HubSpot</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-12" style="color: var(--color-text-secondary);">Sigue estos 5 pasos dentro de la herramienta de importación. El Paso 3 es el más importante para evitar duplicados.</p>
+            
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <div class="card flow-step flex-1 text-center w-full md:w-auto">
+                    <div class="text-3xl font-bold mb-2" style="color: var(--color-primary);">1</div>
+                    <h3 class="text-lg font-semibold">Iniciar Importación</h3>
+                    <p class="text-sm" style="color: var(--color-text-secondary);">Ve a Contactos > Importar y sube tu archivo CSV.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">↓</div>
+
+                <div class="card flow-step flex-1 text-center w-full md:w-auto">
+                    <div class="text-3xl font-bold mb-2" style="color: var(--color-primary);">2</div>
+                    <h3 class="text-lg font-semibold">Seleccionar Objetos</h3>
+                    <p class="text-sm" style="color: var(--color-text-secondary);">Elige "Múltiples objetos" (Contactos y Empresas).</p>
+                </div>
+
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">↓</div>
+                
+                <div class="card flow-step flex-1 text-center w-full md:w-auto border-4" style="border-color: var(--color-accent);">
+                    <div class="text-3xl font-bold mb-2" style="color: var(--color-accent);">3</div>
+                    <h3 class="text-lg font-semibold">Configurar De-duplicación</h3>
+                    <p class="text-sm" style="color: var(--color-text-secondary);">¡CRÍTICO! Elige "Actualizar existentes" y usa los campos de la Regla de Oro.</p>
+                </div>
+
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">↓</div>
+
+                <div class="card flow-step flex-1 text-center w-full md:w-auto">
+                    <div class="text-3xl font-bold mb-2" style="color: var(--color-primary);">4</div>
+                    <h3 class="text-lg font-semibold">Mapear Propiedades</h3>
+                    <p class="text-sm" style="color: var(--color-text-secondary);">Asigna las columnas de tu CSV a las propiedades de HubSpot.</p>
+                </div>
+                
+                <div class="flow-arrow hidden md:block">→</div>
+                <div class="flow-arrow md:hidden">↓</div>
+
+                <div class="card flow-step flex-1 text-center w-full md:w-auto">
+                    <div class="text-3xl font-bold mb-2" style="color: var(--color-primary);">5</div>
+                    <h3 class="text-lg font-semibold">Finalizar y Analizar</h3>
+                    <p class="text-sm" style="color: var(--color-text-secondary);">Revisa el reporte para ver cuántos registros se crearon vs. actualizaron.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="risk-chart" class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">Paso 3 (Detalle): Riesgo de Coincidencia</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8" style="color: var(--color-text-secondary);">Esta es la configuración más importante. Usar el campo incorrecto para la coincidencia (como "Nombre de la Empresa" en lugar de "Dominio") es la principal causa de duplicados. El gráfico muestra el riesgo de duplicación de cada método.</p>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section id="best-practices" class="mt-12">
+            <h2 class="text-3xl font-bold text-center mb-6">Alineación de Equipos: Buenas Prácticas</h2>
+            <p class="text-lg text-center max-w-3xl mx-auto mb-8" style="color: var(--color-text-secondary);">Para mantener la base de datos limpia, todos los equipos deben seguir estas reglas.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card text-center">
+                    <div class="text-4xl mb-4">✅</div>
+                    <h3 class="text-xl font-semibold mb-2">Usar Siempre Identificadores</h3>
+                    <p style="color: var(--color-text-secondary);">Nunca importes una lista sin una columna de Correo Electrónico (para contactos) o Dominio de la Empresa (para empresas).</p>
+                </div>
+                <div class="card text-center">
+                    <div class="text-4xl mb-4">🚫</div>
+                    <h3 class="text-xl font-semibold mb-2">Evitar Coincidir por Nombre</h3>
+                    <p style="color: var(--color-text-secondary);">Usar "Nombre de la Empresa" es arriesgado. (Ej. "Taller S.A." y "Taller, S.A." se crearán como dos empresas diferentes).</p>
+                </div>
+                <div class="card text-center">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h3 class="text-xl font-semibold mb-2">Auditoría Periódica</h3>
+                    <p style="color: var(--color-text-secondary);">Revisa mensualmente la herramienta de "Duplicados Sugeridos" de HubSpot para fusionar cualquier registro que se haya escapado.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-8 mt-12 border-t" style="border-color: #E2E8F0;">
+        <p style="color: var(--color-text-secondary);">Esta infografía es una guía de procesos para equipos de Marketing y Ventas.</p>
+    </footer>
+
+    <script>
+        window.onload = function () {
+            
+            const colorPrimary = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
+            const colorAccent = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim();
+            const colorSuccess = getComputedStyle(document.documentElement).getPropertyValue('--color-success').trim();
+            const colorDanger = getComputedStyle(document.documentElement).getPropertyValue('--color-danger').trim();
+            const colorTextPrimary = getComputedStyle(document.documentElement).getPropertyValue('--color-text-primary').trim();
+            const colorTextSecondary = getComputedStyle(document.documentElement).getPropertyValue('--color-text-secondary').trim();
+            const colorBorder = '#E2E8F0';
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            };
+
+            function wrapLabels(label, maxWidth = 16) {
+                if (typeof label !== 'string') {
+                    return label;
+                }
+                if (label.length <= maxWidth) {
+                    return label;
+                }
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                }
+                if (currentLine) {
+                    lines.push(currentLine.trim());
+                }
+                return lines.length > 0 ? lines : [label];
+            }
+
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.font.size = 14;
+            Chart.defaults.color = colorTextSecondary;
+
+            var ctxContact = document.getElementById('contactPrepChart').getContext('2d');
+            new Chart(ctxContact, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Emails Válidos', 'Emails Inválidos o Faltantes'],
+                    datasets: [{
+                        label: 'Calidad de Contactos',
+                        data: [95, 5],
+                        backgroundColor: [colorSuccess, colorDanger],
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-card').trim(),
+                        borderWidth: 4,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            var ctxCompany = document.getElementById('companyPrepChart').getContext('2d');
+            new Chart(ctxCompany, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Con Dominio Válido', 'Dominio Faltante o Inválido'],
+                    datasets: [{
+                        label: 'Calidad de Empresas',
+                        data: [92, 8],
+                        backgroundColor: [colorSuccess, colorDanger],
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--color-card').trim(),
+                        borderWidth: 4,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            var ctxRisk = document.getElementById('riskChart').getContext('2d');
+            const riskLabels = ['Coincidir por Email (Contacto)', 'Coincidir por Dominio (Empresa)', 'Coincidir solo por Nombre (Empresa)'];
+            const wrappedRiskLabels = riskLabels.map(label => wrapLabels(label, 16));
+
+            new Chart(ctxRisk, {
+                type: 'bar',
+                data: {
+                    labels: wrappedRiskLabels,
+                    datasets: [{
+                        label: '% Riesgo de Duplicación',
+                        data: [2, 3, 75],
+                        backgroundColor: [
+                            colorPrimary,
+                            colorAccent,
+                            colorDanger
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: colorBorder
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%'
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: tooltipTitleCallback,
+                                label: function(context) {
+                                    return ` Riesgo: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
